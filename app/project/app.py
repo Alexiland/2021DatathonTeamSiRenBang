@@ -52,6 +52,11 @@ def quiz_answers():
             correct = correct + 1
     return '<h1>Correct Answers: <u>' + str(correct) + '</u></h1>'
 
+@app.route('/json')
+def json():
+    d = {'same':'a'}
+    return render_template('json.html', j = flask.jsonify(d))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
