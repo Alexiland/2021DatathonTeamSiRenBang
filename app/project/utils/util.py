@@ -21,4 +21,4 @@ def lookup_vendor_info(vendor_name):
 
 
 def lookup_agency_info(agency_name):
-    pass
+    return read_agency_by_month()[agency_name]
