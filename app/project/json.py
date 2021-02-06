@@ -1,5 +1,5 @@
 import json
-import app.project.data_obj as data_obj
+import common.data_obj as data_obj
 import uuid
 import datetime
 
