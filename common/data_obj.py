@@ -39,7 +39,7 @@ class Transaction(Data):
         self.agency = agency
         self.vendor = vendor
         # should be a datetime object
-        self.date = datetime.datetime.strptime(date, '%b %d %Y %I:%M%p')
+        self.date = datetime.datetime.strptime(date, '%Y/%m/%d %I:%M:00+00')
         self.transac_amount = amount
         self.mcc_descrip = descrip
 
