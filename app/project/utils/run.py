@@ -52,6 +52,23 @@ def getinfo_by_vendor_agency(vendorname):
         
     return rsltlist
 
+#
+# def getinfo_by_agency_vendor(agencyname):
+#     newdf = bill_full[bill_full['AGENCY'] == agencyname]
+#     rsltdf = newdf[['MONTH', 'TRANSACTION_AMOUNT']]
+#     rsltdict = defaultdict(list)
+#     rsltlist = []
+#     for index, row in rsltdf.iterrows():
+#         rsltdict[row['MONTH']].append(row['TRANSACTION_AMOUNT'])
+#
+#     for key, value in rsltdict.items():
+#         num = len(value)
+#         total = sum(value)
+#         avg = total / num
+#         rsltlist.append([key, total, num, avg])
+#
+#     return rsltlist
+
 def agg_agent_dict(df):
     
     agg_dict = defaultdict(list)
@@ -105,16 +122,34 @@ def read_vendor_agency_set():
 
     return agency_set, vensor_set
 
-def save_vendor_agency_by_month():
+def save_vendor_by_month():
     with open('vendor_set.pickle', 'rb') as handle:
         vensor_set = pickle.load(handle)
     ve_dict = dict()
     for i in vensor_set:
         ve_dict[i] = getinfo_by_vendor_agency(i)
-    # with open('agency_month.pickle', 'wb') as handle:
+    # with open('agency_by_month.pickle', 'wb') as handle:
     #     pickle.dump(getinfo_by_vendor_agency(bill)[0], handle, protocol=pickle.HIGHEST_PROTOCOL)
     print(ve_dict)
     with open('vendor_by_month.pickle', 'wb') as handle:
         pickle.dump(ve_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+def read_vendor_by_month():
+    with open('vendor_by_month.pickle', 'rb') as handle:
+        vendor_by_month = pickle.load(handle)
+    return vendor_by_month
+
+
+def save_agency_by_month():
+    with open('agency_set.pickle', 'rb') as handle:
+        agency_set = pickle.load(handle)
+    ag_dict = dict()
+    for i in agency_set:
+        ag_dict[i] = getinfo_by_vendor_agency(i)
+    # with open('agency_by_month.pickle', 'wb') as handle:
+    #     pickle.dump(getinfo_by_vendor_agency(bill)[0], handle, protocol=pickle.HIGHEST_PROTOCOL)
+    print(ag_dict)
+    with open('agency_by_month.pickle', 'wb') as handle:
+        pickle.dump(ag_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 

@@ -17,7 +17,7 @@ def is_valid_agency(agency_name):
         return False
 
 def lookup_vendor_info(vendor_name):
-    pass
+    return read_vendor_by_month()[vendor_name]
 
 
 def lookup_agency_info(agency_name):

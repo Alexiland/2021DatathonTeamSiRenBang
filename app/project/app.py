@@ -37,7 +37,7 @@ def login():
         vendor_matrix = ""
 
         if not is_valid_agency(agency) or not is_valid_vendor(vendor):
-            return render_template('not_found.html', transMat=testMat)
+            return render_template('not_found.html')
         else:
             # both vendor and agency are valid
             if not agency == "":
@@ -51,7 +51,5 @@ def login():
         return render_template('result_display.html', transMat=testMat)
 
 if __name__ == '__main__':
-    print(save_vendor_agency_by_month()[1])
-    exit()
     app.run(debug=True)
 
