@@ -1,4 +1,4 @@
-
+import datetime
 
 class Data:
     """Data super class"""
@@ -29,7 +29,11 @@ class Transaction(Data):
         self.objectid = id
         self.agency = agency
         self.vendor = vendor
-        self.date = date
+        # should be a datetime object
+        self.date = datetime.datetime.strptime(date, '%m %d %Y %I:%M%p')
         self.transac_amount = amount
         self.mcc_descrip = descrip
+
+    def month(self):
+        return self.date.month
 
