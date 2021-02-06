@@ -35,9 +35,25 @@ def add_month_year():
 
 bill_full = add_month_year()
 
-def getinfo_by_vendor_agency(vendorname, agencyname):
+def getinfo_by_vendor(vendorname):
     
     newdf = bill_full[bill_full['VENDOR_NAME']==vendorname]
+    rsltdf = newdf[['MONTH','TRANSACTION_AMOUNT']]
+    rsltdict = defaultdict(list)
+    rsltlist = []
+    for index, row in rsltdf.iterrows():
+        rsltdict[row['MONTH']].append(row['TRANSACTION_AMOUNT'])
+    
+    for key, value in rsltdict.items():
+        num = len(value)
+        total = sum(value)
+        avg = total / num
+        rsltlist.append([key, total, num, avg])
+        
+    return rsltlist
+
+def getinfo_by_agency(agencyname):
+    newdf = bill_full[bill_full['AGENCY']==vendorname]
     rsltdf = newdf[['MONTH','TRANSACTION_AMOUNT']]
     rsltdict = defaultdict(list)
     rsltlist = []
