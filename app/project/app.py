@@ -35,17 +35,19 @@ def login():
         vendor = request.form['vn']
         agency_matrix = ""
         vendor_matrix = ""
+        agency_loc = ""
 
-        if not is_valid_agency(agency) or not is_valid_vendor(vendor):
+        if not is_valid_agency(agency) and not is_valid_vendor(vendor):
             return render_template('not_found.html')
         else:
             # both vendor and agency are valid
             if not agency == "":
                 agency_matrix = lookup_agency_info(agency)
+                agency_loc = read_agency_loc()[agency]
 
             if not vendor == "":
                 vendor_matrix = lookup_vendor_info(vendor)
-        return render_template('result_display.html', agencyMat=agency_matrix, vendorMat=vendor_matrix)
+        return render_template('result_display.html', agency_matrix=agency_matrix, vendorMat=vendor_matrix, agency_loc=agency_loc)
     else:
         agency = request.args.get('an')
         return render_template('result_display.html', transMat=testMat)
