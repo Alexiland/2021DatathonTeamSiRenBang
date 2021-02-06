@@ -9,7 +9,7 @@ from collections import defaultdict, OrderedDict
 from datetime import datetime
 def load_bill_data():
     # print(os.getcwd())
-    path = os.getcwd()+"/../project/Purchase_Card_Transactions.csv"
+    path = os.getcwd()+"/project/Purchase_Card_Transactions.csv"
     return pd.read_csv(path)
 
 
@@ -89,7 +89,3 @@ def specific_ranking(agency, sorted_list):
         if agency == sorted_list[i-1][0]:
             return i
 
-
-
-print(getseries()[2009])
-print(ranking(calculate_index(getseries()[2009], 0.001, 0.999)))

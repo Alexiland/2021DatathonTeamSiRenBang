@@ -47,11 +47,16 @@ def login():
 
             if not vendor == "":
                 vendor_matrix = lookup_vendor_info(vendor)
-        return render_template('result_display.html', agency_matrix=agency_matrix, vendorMat=vendor_matrix, agency_loc=agency_loc)
+
+            success_factor_matrix = success_factor(agency)
+            ranking_matrix = rank(agency)
+        return render_template('result_display.html', agency_matrix=agency_matrix, vendorMat=vendor_matrix, agency_loc=agency_loc, success_factor_matrix=success_factor_matrix, ranking_matrix=ranking_matrix)
     else:
         agency = request.args.get('an')
         return render_template('result_display.html', transMat=testMat)
 
 if __name__ == '__main__':
+    print(success_factor("DC Public Library"))
+    exit()
     app.run(debug=True)
 

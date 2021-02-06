@@ -86,6 +86,22 @@ def getloc_by_agency(agencyname):
 
     return rsltlist
 
+
+def getloc_by_agency_allyears(agencyname):
+    newdf = bill_full[bill_full['AGENCY'] == agencyname]
+    rsltdf = newdf[['VENDOR_STATE_PROVINCE', 'TRANSACTION_AMOUNT']]
+    rsltlist = []
+
+    rsltdict = defaultdict(int)
+    for index, row in rsltdf.iterrows():
+        if not type(row['VENDOR_STATE_PROVINCE']) == float:
+            rsltdict[row['VENDOR_STATE_PROVINCE']] += (row['TRANSACTION_AMOUNT'])
+
+    for key, value in rsltdict.items():
+        rsltlist.append(["US-" + key, value])
+
+    return rsltlist
+
 def agg_agent_dict(df):
     
     agg_dict = defaultdict(list)
@@ -187,3 +203,18 @@ def read_agency_loc():
     with open('agency_loc.pickle', 'rb') as handle:
         agency_loc = pickle.load(handle)
     return agency_loc
+
+def save_agency_loc_all_years():
+    with open('agency_set.pickle', 'rb') as handle:
+        agency_set = pickle.load(handle)
+    ag_dict = dict()
+    for i in agency_set:
+        ag_dict[i] = getloc_by_agency_allyears(i)
+    with open('agency_loc_all_years.pickle', 'wb') as handle:
+        pickle.dump(ag_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+def read_agency_loc_all_years():
+    with open('agency_loc_all_years.pickle', 'rb') as handle:
+        agency_loc = pickle.load(handle)
+    return agency_loc
+
