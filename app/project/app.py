@@ -1,5 +1,4 @@
-from flask import Flask, render_template, request
-import flask
+from flask import Flask, render_template, request, jsonify
 import random, copy
 import json
 
@@ -55,7 +54,7 @@ def quiz_answers():
 @app.route('/json')
 def json():
     d = {'same':'a'}
-    return render_template('json.html', j = flask.jsonify(d))
+    return render_template('json.html', j=json.dumps(jsonify(d)))
 
 
 if __name__ == '__main__':
