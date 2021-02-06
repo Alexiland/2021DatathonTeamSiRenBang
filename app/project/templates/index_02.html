@@ -5,18 +5,22 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="{{ url_for('static', filename='/assets/css/main.css')}}" />
-		<noscript><link rel="stylesheet" href="{{ url_for('static', filename='/assets/css/noscript.css')}}" /></noscript>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  </head>
-    
-    </head>
+		<noscript><link rel="stylesheet" href="{{ url_for('static', filename='//assets/css/noscript.css')}}" /></noscript>
+	</head>
 	<body class="is-preload">
 
 		<!-- Header -->
 			<header id="header">
 				<div class="content">
-					<h1><a href="#">Hey this is Team xxx!</a></h1>
-					<p>A Simple Transaction Performance Predictor<br /></p>
+					<h1><a href="#">{{ checkchekc }}</a></h1>
+{#                    test post#}
+                    <form action = "http://localhost:5000/login" method = "post">
+						<p>Enter Name:</p>
+						<p><input type = "text" name = "nm" /></p>
+						<p><input type = "submit" value = "submit" /></p>
+                 	 </form>
+					<p>Just a simple, single page responsive<br />
+					template brought to you by <a href="http://html5up.net">HTML5 UP</a></p>
 					<ul class="actions">
 						<li><a href="#" class="button primary icon solid fa-download">Download</a></li>
 						<li><a href="#one" class="button icon solid fa-chevron-down scrolly">Learn More</a></li>
@@ -24,24 +28,13 @@
 				</div>
 				<div class="image phone"><div class="inner"><img src="{{ url_for('static', filename='/images/screen.jpg')}}" alt="" /></div></div>
 			</header>
-        
+
 		<!-- One -->
 			<section id="one" class="wrapper style2 special">
-                <form action = "http://localhost:5000/login" method = "post">
-                    <p>Enter Your Agency Name: <input width="auto" type = "text" name = "an"/></p>
-                    <p>Enter Your Vendor Name: <input width="auto" type = "text" name = "vn"/></p>
-                    <p><input type = "submit" value = "Check Performance!" /></p>
-                </form>
-				<!-- <header class="major">
-                    <h1> Past Transaction of Your Company </h1>
-                    <div id="curve_chart" style="width: 900px; height: 500px;margin:auto">
-                    </div>
-                </header>
-                <header>
-                    Geological Location Display
-                    <div id="regions_div" style="width: 900px; height: 500px; margin:auto">
-                    </div>
-                </header> -->
+				<header class="major">
+					<h2>Sed ipsum magna lorem tempus amet<br />
+					vehicula et gravida elementum</h2>
+				</header>
 				<ul class="icons major">
 					<li><span class="icon solid fa-camera-retro"><span class="label">Shoot</span></span></li>
 					<li><span class="icon solid fa-sync"><span class="label">Process</span></span></li>
@@ -118,4 +111,3 @@
 
 	</body>
 </html>
-

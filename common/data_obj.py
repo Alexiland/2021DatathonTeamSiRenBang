@@ -27,7 +27,6 @@ class Transaction(Data):
     """Transaction data object"""
     def __init__(self, id, agency, vendor, date, amount, descrip):
         """
-
         :param id: int
         :param agency: string
         :param vendor: string

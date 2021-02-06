@@ -1,61 +1,51 @@
-from flask import Flask, render_template, request, jsonify
-import random, copy
-import json
-
+from flask import Flask, render_template, request
+from utils.util import *
 app = Flask(__name__)
-
-original_questions = {
-    # Format is 'question':[options]
-    'Taj Mahal': ['Agra', 'New Delhi', 'Mumbai', 'Chennai'],
-    'Great Wall of China': ['China', 'Beijing', 'Shanghai', 'Tianjin'],
-    'Petra': ['Ma\'an Governorate', 'Amman', 'Zarqa', 'Jerash'],
-    'Machu Picchu': ['Cuzco Region', 'Lima', 'Piura', 'Tacna'],
-    'Egypt Pyramids': ['Giza', 'Suez', 'Luxor', 'Tanta'],
-    'Colosseum': ['Rome', 'Milan', 'Bari', 'Bologna'],
-    'Christ the Redeemer': ['Rio de Janeiro', 'Natal', 'Olinda', 'Betim']
-}
-
-questions = copy.deepcopy(original_questions)
-
-
-def shuffle(q):
-    """
-    This function is for shuffling
-    the dictionary elements.
-    """
-    selected_keys = []
-    i = 0
-    while i < len(q):
-        current_selection = random.choice(q.keys())
-        if current_selection not in selected_keys:
-            selected_keys.append(current_selection)
-            i = i + 1
-    return selected_keys
 
 
 @app.route('/')
-def quiz():
-    # questions_shuffled = shuffle(questions)
-    questions_shuffled = questions
-    for i in questions.keys():
-        random.shuffle(questions[i])
-    return render_template('main.html', q=questions_shuffled, o=questions)
+def index():
+    print("successful")
+    return render_template('index.html')
 
 
-@app.route('/quiz', methods=['POST'])
-def quiz_answers():
-    correct = 0
-    for i in questions.keys():
-        answered = request.form[i]
-        if original_questions[i][0] == answered:
-            correct = correct + 1
-    return '<h1>Correct Answers: <u>' + str(correct) + '</u></h1>'
+@app.route('/hello')
+def hello():
+    return render_template('hello.html')
 
-@app.route('/json')
-def json():
-    d = {'same':'a'}
-    return render_template('json.html', j=json.dumps(jsonify(d)))
+@app.route('/success/<name>')
+def success(name):
+   return 'welcome %s' % name
 
+@app.route('/result_display/<transMat>')
+def result_display(transMat):
+    return render_template('result_display.html', transMat=transMat)
+
+@app.route('/login',methods = ['POST', 'GET'])
+def login():
+    testMat = [['Month', 'TotalCost', 'AvgCost'],
+              ['2004',  1000,      400],
+              ['2005',  1170,      460],
+              ['2006',  660,       1120],
+              ['2007',  1030,      540]]
+    if request.method == 'POST':
+        agency = request.form['an']
+        vendor = request.form['vn']
+
+        if not is_valid_agency(agency) or not is_valid_vendor(vendor):
+            return render_template('not_found.html', transMat=testMat)
+        else:
+            # both vendor and agency are valid
+            if not agency == "":
+                agency_matrix = lookup_agency_info(agency)
+
+            if not vendor == "":
+                vendor_matrix = lookup_vendor_info(vendor)
+        return render_template('result_display.html', transMat=testMat)
+    else:
+        agency = request.args.get('an')
+        return render_template('result_display.html', transMat=testMat)
 
 if __name__ == '__main__':
     app.run(debug=True)
+
