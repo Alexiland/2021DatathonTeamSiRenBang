@@ -13,6 +13,45 @@ def load_bill_data():
 
 bill = load_bill_data()
 
+def add_month_year():
+    date_format = "%Y/%m/%d"
+    min_date = datetime.strptime('2000/01/01', date_format)
+
+    day_col = []
+    month_col = []
+    year_col = []
+
+    for orig in bill["TRANSACTION_DATE"]:
+        date = datetime.strptime(orig, '%Y/%m/%d %I:%M:00+00')
+        month = str(date.year) + '/' + str(date.month - min_date.month)
+        month_col.append(month)
+        year = date.year
+        year_col.append(year)
+        
+    bill_full = bill.copy()
+    bill_full['MONTH'] = month_col
+    bill_full['YEAR'] = year_col
+    return bill_full
+
+bill_full = add_month_year()
+
+def getinfo_by_vendor_agency(vendorname, agencyname):
+    
+    newdf = bill_full[bill_full['VENDOR_NAME']==vendorname]
+    rsltdf = newdf[['MONTH','TRANSACTION_AMOUNT']]
+    rsltdict = defaultdict(list)
+    rsltlist = []
+    for index, row in rsltdf.iterrows():
+        rsltdict[row['MONTH']].append(row['TRANSACTION_AMOUNT'])
+    
+    for key, value in rsltdict.items():
+        num = len(value)
+        total = sum(value)
+        avg = total / num
+        rsltlist.append([key, total, num, avg])
+        
+    return rsltlist
+
 def agg_agent_dict(df):
     
     agg_dict = defaultdict(list)
