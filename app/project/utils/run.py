@@ -5,6 +5,7 @@ from collections import defaultdict
 import sys
 import os
 import pickle
+from datetime import datetime
 
 def load_bill_data():
     print(os.getcwd())
@@ -16,7 +17,6 @@ bill = load_bill_data()
 def add_month_year():
     date_format = "%Y/%m/%d"
     min_date = datetime.strptime('2000/01/01', date_format)
-
     day_col = []
     month_col = []
     year_col = []
@@ -35,7 +35,7 @@ def add_month_year():
 
 bill_full = add_month_year()
 
-def getinfo_by_vendor_agency(vendorname, agencyname):
+def getinfo_by_vendor_agency(vendorname):
     
     newdf = bill_full[bill_full['VENDOR_NAME']==vendorname]
     rsltdf = newdf[['MONTH','TRANSACTION_AMOUNT']]
@@ -63,15 +63,15 @@ def agg_agent_dict(df):
         if index %1000 == 0:
             print(index)
         vend = Vendor(str(row['VENDOR_NAME']), str(row['VENDOR_STATE_PROVINCE']))
-        vendor_list.add(vend)
+        vendor_list.add(vend.name)
         agen = Agency(str(row['AGENCY']))
-        agency_list.append(agen)
+        agency_list.add(agen.name)
         dat = str(row['TRANSACTION_DATE'])
         trans = Transaction(row['OBJECTID'], agen, vend, dat, row['TRANSACTION_AMOUNT'], str(row['MCC_DESCRIPTION']))
 
         agg_dict[agen.name].append(trans)
         vend_dict[vend.name].append(trans)
-    return agg_dict, vend_dict
+    return agg_dict, vend_dict, agency_list, vendor_list
 
 def save_data():
     with open('agency.pickle', 'wb') as handle:
@@ -89,5 +89,32 @@ def read_data():
         vendor = pickle.load(handle)
 
     return agency, vendor
+
+def save_vendor_agency_set():
+    _, _, ag, ve = agg_agent_dict(bill)
+    with open('vendor_set.pickle', 'wb') as handle:
+        pickle.dump(ve, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    with open('agency_set.pickle', 'wb') as handle:
+        pickle.dump(ag, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+def read_vendor_agency_set():
+    with open('vendor_set.pickle', 'rb') as handle:
+        vensor_set = pickle.load(handle)
+    with open('agency_set.pickle', 'rb') as handle:
+        agency_set = pickle.load(handle)
+
+    return agency_set, vensor_set
+
+def save_vendor_agency_by_month():
+    with open('vendor_set.pickle', 'rb') as handle:
+        vensor_set = pickle.load(handle)
+    ve_dict = dict()
+    for i in vensor_set:
+        ve_dict[i] = getinfo_by_vendor_agency(i)
+    # with open('agency_month.pickle', 'wb') as handle:
+    #     pickle.dump(getinfo_by_vendor_agency(bill)[0], handle, protocol=pickle.HIGHEST_PROTOCOL)
+    print(ve_dict)
+    with open('vendor_by_month.pickle', 'wb') as handle:
+        pickle.dump(ve_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 

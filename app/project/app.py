@@ -33,6 +33,8 @@ def login():
     if request.method == 'POST':
         agency = request.form['an']
         vendor = request.form['vn']
+        agency_matrix = ""
+        vendor_matrix = ""
 
         if not is_valid_agency(agency) or not is_valid_vendor(vendor):
             return render_template('not_found.html', transMat=testMat)
@@ -43,11 +45,13 @@ def login():
 
             if not vendor == "":
                 vendor_matrix = lookup_vendor_info(vendor)
-        return render_template('result_display.html', transMat=testMat)
+        return render_template('result_display.html', agencyMat=agency_matrix, vendorMat=vendor_matrix)
     else:
         agency = request.args.get('an')
         return render_template('result_display.html', transMat=testMat)
 
 if __name__ == '__main__':
+    print(save_vendor_agency_by_month()[1])
+    exit()
     app.run(debug=True)
 
