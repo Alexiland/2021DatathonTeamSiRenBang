@@ -1,3 +1,5 @@
+from utils.run import *
+
 VENDORS = []
 AGENCIES = []
 
@@ -15,7 +17,10 @@ def is_valid_agency(agency_name):
         return False
 
 def lookup_vendor_info(vendor_name):
+    print(read_data())
+    exit()
 
 
 
 def lookup_agency_info(agency_name):
+    pass

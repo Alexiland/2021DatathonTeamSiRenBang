@@ -30,5 +30,5 @@ def agg_agent_dict(df):
     return agg_dict, vend_dict
 
 
-
-agg_agent_dict(bill)
+def read_data():
+    return agg_agent_dict(bill)
